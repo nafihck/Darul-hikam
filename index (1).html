@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Darul Hikam Hifz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#eef3f1;--card:#fff;--tx:#12302c;--mu:#5c706b;--ac:#0f5c54;--ac2:#dcece8;--bd:#d3dfdb;--gold:#b0801f;--red:#b3261e;--sh:0 1px 2px rgba(15,60,54,.06),0 8px 24px -12px rgba(15,60,54,.18)}
+@media (prefers-color-scheme:dark){:root{--bg:#0c1715;--card:#14231f;--tx:#e6f0ed;--mu:#8fa6a0;--ac:#43c4a8;--ac2:#1b3a33;--bd:#25403a;--gold:#e3b84f;--sh:none;color-scheme:dark}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 "Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:relative;background:#0b3b36 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 6l5 12 12-5-5 12 12 5-12 5 5 12-12-5-5 12-5-12-12 5 5-12-12-5 12-5-5-12 12 5z' fill='none' stroke='%23ffffff' stroke-opacity='.07' stroke-width='1'/%3E%3C/svg%3E");color:#fff;padding:calc(18px + env(safe-area-inset-top,0px)) 18px 20px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;border-bottom:3px solid #c9a24a}
+.brand{display:flex;flex-direction:column;gap:2px}
+.ar{font:700 30px/1.2 Amiri,"Noto Naskh Arabic",serif;color:#f1d68f;direction:rtl}
+.brand h1{margin:0;font-size:13px;font-weight:600;letter-spacing:.02em;opacity:.9}
+#who{font-size:12px;opacity:.75;margin-top:2px}
+.hb{display:flex;gap:6px}.hb button{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:13px;padding:7px 11px}
+main{max-width:920px;margin:0 auto;padding:16px 14px calc(30px + env(safe-area-inset-bottom,0px))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
+h2{font-size:17px;font-weight:700;margin:0 0 12px;letter-spacing:-.01em}
+input,select,textarea,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;max-width:100%;min-height:42px}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+button{cursor:pointer;background:var(--ac);color:#fff;border:0;font-weight:600;transition:transform .12s}button:active{transform:scale(.97)}
+button.s{background:var(--ac2);color:var(--ac)}button.d{background:transparent;color:var(--red);border:1px solid var(--bd);min-height:34px;padding:4px 10px}
+@media (prefers-color-scheme:dark){button{color:#06231d}button.s{color:var(--ac)}button.d{color:#ff8a80}.hb button{color:#fff}}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}.row>*{flex:1 1 150px}
+.tabs{display:flex;gap:2px;overflow-x:auto;margin:0 -14px 14px;padding:0 14px;border-bottom:1px solid var(--bd);scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{background:none;color:var(--mu);border:0;border-radius:0;border-bottom:3px solid transparent;white-space:nowrap;padding:12px 14px;min-height:46px}
+.tabs button.on{color:var(--ac);border-bottom-color:var(--ac)}
+.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{color:var(--mu);font-weight:600;font-size:12px}th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.mu{color:var(--mu);font-size:13px}label{font-size:12px;font-weight:600;color:var(--mu);display:block;margin-bottom:3px}
+.gold{color:var(--gold);font-weight:700;font-size:16px;background:var(--ac2);border-radius:12px;padding:12px 14px}
+.hero{padding:26px 18px;text-align:center}.hero .ar{color:var(--ac);font-size:36px}.hero p{margin:4px 0 18px;color:var(--mu)}
+.hero .row{max-width:340px;margin:0 auto 10px}.hero .row>*{flex:1 1 100%}
+.pc{display:grid;gap:12px}
+.st{display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:center}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:16px;grid-row:span 2}
+.st b{font-size:15px}.st .mu{margin-top:-2px}
+.juz{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin:12px 0 8px}
+.juz i{aspect-ratio:1;border-radius:50%;background:var(--ac2);border:1px solid var(--bd)}.juz i.on{background:var(--ac);border-color:var(--ac)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px}
+.chip{background:var(--ac2);color:var(--ac);border-radius:99px;padding:3px 10px;font-weight:600;font-size:12px}
+td input[type=number],.meta input[type=number]{width:72px;min-height:34px;padding:4px 8px}
+.empty{padding:22px;text-align:center;color:var(--mu)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<header><div class="brand"><span class="ar">دار الحكمة</span><h1>Darul Hikam · Hifz</h1><span id="who"></span></div><div class="hb"><button id="pw" hidden>Password</button><button id="out" hidden>Logout</button></div></header>
+<main id="app"><p class="mu">Loading…</p></main>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,updatePassword,reauthenticateWithCredential,EmailAuthProvider} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,getDoc,setDoc,deleteDoc,onSnapshot,query,where,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// ====== PASTE YOUR FIREBASE CONFIG HERE (Project settings > Your apps > Web) ======
+const CFG={apiKey:"AIzaSyDV3Q5qniP4wooLT1F9WERZxbIh_W33bt8",authDomain:"hifz-management.firebaseapp.com",projectId:"hifz-management",storageBucket:"hifz-management.firebasestorage.app",messagingSenderId:"7998042320",appId:"1:7998042320:web:1271eb0084a60123eeeed5"};
+const DOMAIN="@darulhikam.app";
+const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const v=id=>($('#'+id)?.value??'').trim();
+const uid=()=>Math.random().toString(36).slice(2,10);
+const today=()=>new Date().toISOString().slice(0,10);
+const S={users:{},students:{},reports:{},att:{},awards:{},leaves:{},notices:{}};
+let me=null,P=null,tab='',month=today().slice(0,7),sel='',adate=today(),acls='',unsubs=[],setupDone=null;
+const ST=['Present','Late','Absent','Leave'];
+
+async function boot(){
+  const c=await getDoc(doc(db,'config','setup')).catch(()=>null);
+  setupDone=!!(c&&c.exists());
+  onAuthStateChanged(auth,async u=>{
+    unsubs.forEach(f=>f());unsubs=[];me=u;P=null;
+    if(u){const d=await getDoc(doc(db,'users',u.uid)).catch(()=>null);P=d&&d.exists()?d.data():null;if(P)listen()}
+    render();
+  });
+}
+function sub(name,ref,isDoc){
+  unsubs.push(onSnapshot(ref,sn=>{
+    if(isDoc){S[name]=sn.exists()?{[sn.id]:sn.data()}:{}}
+    else{S[name]={};sn.docs.forEach(d=>S[name][d.id]=d.data())}
+    render();
+  },e=>console.error(name,e)));
+}
+function listen(){
+  const col=n=>collection(db,n);
+  if(P.role==='admin'){sub('users',col('users'));sub('students',col('students'));sub('reports',col('reports'));sub('att',col('attendance'));sub('leaves',col('leaves'))}
+  if(P.role==='ustad'){sub('students',query(col('students'),where('cls','==',P.cls)));sub('reports',query(col('reports'),where('cls','==',P.cls)));sub('att',query(col('attendance'),where('cls','==',P.cls)));sub('leaves',query(col('leaves'),where('cls','==',P.cls)))}
+  if(P.role==='parent'){sub('students',doc(db,'students',P.studentId),true);sub('reports',query(col('reports'),where('sid','==',P.studentId)));sub('att',query(col('attendance'),where('sid','==',P.studentId)));sub('leaves',query(col('leaves'),where('sid','==',P.studentId)))}
+  sub('awards',col('awards'));sub('notices',col('notices'));
+}
+// attendance + score helpers
+const inM=(d,m)=>d.startsWith(m);
+function attStats(sid,m){const a=Object.values(S.att).filter(x=>x.sid===sid&&inM(x.date,m));const c=k=>a.filter(x=>x.status===k).length;const tot=a.length;return{tot,p:c('Present'),l:c('Late'),a:c('Absent'),v:c('Leave'),pct:tot?Math.round((c('Present')+c('Late'))*100/tot):0}}
+function lines(sid,m){return Object.values(S.reports).filter(r=>r.sid===sid&&inM(r.date,m)).reduce((a,r)=>a+(+r.sabaq||0),0)}
+function score(sid,m){const rp=Object.values(S.reports).filter(r=>r.sid===sid&&inM(r.date,m)).reduce((a,r)=>a+(+r.sabaq||0)+r.tajweed*2+r.behaviour*2,0);const s=attStats(sid,m);return rp+s.p*3+s.l}
+function ranking(m,cls){return Object.entries(S.students).filter(([,s])=>!cls||s.cls===cls).map(([id,s])=>({id,s,pts:score(id,m),at:attStats(id,m)})).filter(x=>x.at.tot||x.pts).sort((a,b)=>b.pts-a.pts)}
+const studs=()=>Object.entries(S.students).sort((a,b)=>a[1].cls.localeCompare(b[1].cls)||a[1].name.localeCompare(b[1].name));
+
+function render(){
+  const a=$('#app');$('#out').hidden=!me;$('#pw').hidden=!me;
+  if(setupDone===false&&!me){a.innerHTML=`<div class="card hero"><span class="ar" style="display:block">دار الحكمة</span><h2>Set up Darul Hikam</h2><p class="mu">Create the admin account for Darul Hikam.</p><div class="row"><input id="an" value="Al Hafiz Jaseem Al Ansari"><input id="au" placeholder="Username" value="admin"><input id="ap" type="password" placeholder="Password (min 6)"></div><button data-act="setup">Create admin</button></div>`;return}
+  if(!me){$('#who').textContent='';a.innerHTML=`<div class="card hero"><span class="ar" style="display:block">دار الحكمة</span><h2>Welcome back</h2><p>Sign in to see hifz reports and attendance.</p><div class="row"><input id="lu" placeholder="Username" autocapitalize="none"><input id="lp" type="password" placeholder="Password"></div><button data-act="login">Login</button> <span class="mu" id="le"></span></div>`;return}
+  if(!P){a.innerHTML='<div class="card">Account found but profile could not be loaded (check Firestore rules / users record). <button data-act="lo">Back</button></div>';return}
+  $('#who').textContent=({admin:'Admin',ustad:'Ustad · Class '+P.cls,parent:'Parent'})[P.role]+' · '+P.name;
+  const T=P.role==='admin'?['Attendance','Reports','Add report','Progress','Leaves','Notices','Best of month','Students','Ustads']:P.role==='ustad'?['Attendance','Reports','Add report','Progress','Leaves','Notices','Best of month']:['Home','Progress','Reports','Attendance','Leaves','Notices','Best of month'];
+  if(!T.includes(tab))tab=T[0];const pend=Object.values(S.leaves).filter(l=>l.status==='pending').length;
+  const V={Home:vHome,Leaves:vLeaves,Notices:vNotices,Attendance:vAtt,Reports:vRep,'Add report':vAdd,Progress:vProg,'Best of month':vBest,Students:vStud,Ustads:vUst};
+  a.innerHTML=`<div class="tabs">${T.map(t=>`<button class="${t===tab?'on':''}" data-act="tab" data-v="${t}">${t}${t==='Leaves'&&P.role!=='parent'&&pend?` (${pend})`:''}</button>`).join('')}</div>`+V[tab]();
+}
+function vAtt(){
+  if(P.role==='parent'){const rows=Object.values(S.att).sort((a,b)=>b.date.localeCompare(a.date));const st=attStats(P.studentId,month);
+    return `<div class="card"><h2>Attendance</h2><div class="row"><input type="month" id="mm" value="${month}" data-chg="mon"></div><p>This month: <b>${st.pct}%</b> · Present ${st.p} · Late ${st.l} · Absent ${st.a} · Leave ${st.v}</p><div class="sc"><table><tr><th>Date</th><th>Status</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.status)}</td></tr>`).join('')||'<tr><td class="mu">No records</td></tr>'}</table></div></div>`}
+  const cl=[...new Set(studs().map(([,s])=>s.cls))];if(!acls||!cl.includes(acls))acls=cl[0]||'';
+  const list=studs().filter(([,s])=>s.cls===acls);
+  return `<div class="card"><h2>Daily attendance</h2><div class="row"><input type="date" id="ad" value="${adate}" data-chg="ad">${P.role==='admin'?`<select id="ac" data-chg="ac">${cl.map(c=>`<option ${c===acls?'selected':''}>${esc(c)}</option>`).join('')}</select>`:''}</div>
+  <div class="sc"><table><tr><th>Student</th><th>Status</th></tr>${list.map(([id,s])=>{const cur=S.att[adate+'_'+id]?.status||(lvOn(id,adate)?'Leave':'Present');return `<tr><td>${esc(s.name)}</td><td><select data-sid="${id}">${ST.map(x=>`<option ${x===cur?'selected':''}>${x}</option>`).join('')}</select></td></tr>`}).join('')||'<tr><td class="mu">No students</td></tr>'}</table></div><br><button data-act="saveatt">Save attendance</button></div>`}
+function vRep(){
+  let rs=Object.entries(S.reports).filter(([,r])=>!sel||r.sid===sel).sort((a,b)=>b[1].date.localeCompare(a[1].date));
+  return `<div class="card"><h2>Reports</h2>${P.role==='admin'?'<button class="s" data-act="csv" style="margin-bottom:10px">Export CSV</button>':''}${P.role!=='parent'?`<div class="row"><select data-chg="sel"><option value="">All students</option>${studs().map(([id,s])=>`<option value="${id}" ${sel===id?'selected':''}>${esc(s.name)} (${esc(s.cls)})</option>`).join('')}</select></div>`:''}
+  <div class="sc"><table><tr><th>Date</th><th>Student</th><th>Class</th><th>Sabaq</th><th>Lines</th><th>Sabqi</th><th>Manzil</th><th>Tajweed</th><th>Behav.</th><th>Note</th><th>By</th><th></th></tr>
+  ${rs.map(([id,r])=>`<tr><td>${esc(r.date)}</td><td>${esc(S.students[r.sid]?.name||'?')}</td><td>${esc(r.cls)}</td><td>${esc(r.sabaqText)}</td><td>${esc(r.sabaq)}</td><td>${esc(r.sabqi)}</td><td>${esc(r.manzil)}</td><td>${r.tajweed}/5</td><td>${r.behaviour}/5</td><td style="white-space:normal;min-width:120px">${esc(r.note)}</td><td>${esc(r.byName)}</td><td>${P.role==='admin'||r.by===me.uid?`<button class="d" data-act="delr" data-v="${id}">×</button>`:''}</td></tr>`).join('')||'<tr><td colspan="12" class="mu">No reports yet.</td></tr>'}</table></div></div>`}
+function vAdd(){const r5=n=>`<select id="${n}">${[5,4,3,2,1].map(i=>`<option>${i}</option>`).join('')}</select>`;
+  return `<div class="card"><h2>New report</h2><div class="row"><div><label>Student</label><select id="rs">${studs().map(([id,s])=>`<option value="${id}">${esc(s.name)} (${esc(s.cls)})</option>`).join('')}</select></div><div><label>Date</label><input id="rd" type="date" value="${today()}"></div></div>
+  <div class="row"><div><label>Sabaq (surah + ayah range)</label><input id="rt" placeholder="e.g. Al-Mulk 1–10"></div><div><label>Sabaq lines</label><input id="rq" type="number" min="0" value="0"></div></div>
+  <div class="row"><div><label>Sabqi</label><input id="rb"></div><div><label>Manzil</label><input id="rm"></div></div>
+  <div class="row"><div><label>Tajweed (1–5)</label>${r5('rj')}</div><div><label>Behaviour (1–5)</label>${r5('rh')}</div></div>
+  <div class="row"><textarea id="rn" rows="2" placeholder="Note for parents"></textarea></div><button data-act="addr">Save report</button></div>`}
+const hue=n=>{let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%360;return h};
+const ini=n=>n.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+function vProg(){const can=P.role!=='parent',L=studs();
+  return `<div class="card"><h2>Hifz progress</h2><label>Month</label><input type="month" id="mm" value="${month}" data-chg="mon"></div><div class="pc">
+  ${L.map(([id,s])=>{const j=+s.juz||0,at=attStats(id,month);return `<div class="card"><div class="st"><div class="av" style="background:hsl(${hue(s.name)} 45% 38%)">${esc(ini(s.name))}</div><b>${esc(s.name)}</b><span class="mu">Class ${esc(s.cls)}</span></div>
+  <div class="juz">${Array.from({length:30},(_,k)=>`<i class="${k<j?'on':''}"></i>`).join('')}</div>
+  <div class="meta"><span class="chip">${j} of 30 juz</span><span class="chip">${at.tot?at.pct+'% attendance':'No attendance yet'}</span><span class="chip">${lines(id,month)} lines this month</span>${can?`<span style="margin-left:auto">Juz <input type="number" min="0" max="30" value="${j}" data-juz="${id}"></span>`:''}</div></div>`}).join('')||'<div class="card empty">No students yet. Add students from the Students tab.</div>'}</div>`}
+function vBest(){const cls=P.role==='ustad'?P.cls:'',rk=ranking(month,cls),aw=S.awards[month];const rows=P.role==='parent'?rk.filter(x=>x.id===P.studentId):rk;
+  const w=aw&&aw.name?`<p class="gold">🏆 ${esc(aw.name)} (Class ${esc(aw.cls)}) is the best student of ${esc(month)}</p>`:'<p class="mu">Not announced yet.</p>';
+  return `<div class="card"><h2>Best student of the month</h2><div class="row"><input type="month" id="mm" value="${month}" data-chg="mon"></div>${w}<p class="mu">Points = report (sabaq lines + tajweed×2 + behaviour×2) + attendance (present ×3, late ×1).</p>
+  <div class="sc"><table><tr><th>#</th><th>Student</th><th>Class</th><th>Attendance</th><th>Points</th>${P.role==='admin'?'<th></th>':''}</tr>${rows.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.s.name)}</td><td>${esc(x.s.cls)}</td><td>${x.at.tot?x.at.pct+'%':'–'}</td><td>${x.pts}</td>${P.role==='admin'?`<td><button class="s" data-act="award" data-v="${x.id}">Award</button></td>`:''}</tr>`).join('')||'<tr><td colspan="6" class="mu">No data.</td></tr>'}</table></div></div>`}
+function vStud(){return `<div class="card"><h2>Add student</h2><div class="row"><input id="sn" placeholder="Student name"><input id="sc" placeholder="Class (e.g. A)"></div><div class="row"><input id="pn" placeholder="Parent name"><input id="pu" placeholder="Parent username" autocapitalize="none"><input id="pp" placeholder="Parent password (min 6)"></div><button data-act="adds">Add student + parent login</button></div>
+  <div class="card"><h2>Students (${studs().length})</h2><div class="sc"><table><tr><th>Name</th><th>Class</th><th>Parent</th><th></th></tr>${studs().map(([id,s])=>{const p=Object.values(S.users).find(x=>x.studentId===id);return `<tr><td>${esc(s.name)}</td><td>${esc(s.cls)}</td><td>${esc(p?.username||'')}</td><td><button class="d" data-act="dels" data-v="${id}">×</button></td></tr>`}).join('')}</table></div></div>`}
+function vUst(){return `<div class="card"><h2>Add ustad</h2><div class="row"><input id="un" placeholder="Ustad name"><input id="uc" placeholder="Class (e.g. A)"><input id="uu" placeholder="Username" autocapitalize="none"><input id="up" placeholder="Password (min 6)"></div><button data-act="addu">Add ustad</button></div>
+  <div class="card"><h2>Ustads</h2><div class="sc"><table><tr><th>Name</th><th>Class</th><th>Username</th></tr>${Object.values(S.users).filter(u=>u.role==='ustad').map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.cls)}</td><td>${esc(u.username)}</td></tr>`).join('')}</table></div><p class="mu">To remove a login fully, also delete the user in Firebase Console > Authentication.</p></div>`}
+
+
+const lvOn=(sid,d)=>Object.values(S.leaves).some(l=>l.sid===sid&&l.status==='approved'&&l.from<=d&&d<=l.to);
+const chipLv=s=>`<span class="chip" style="${s==='approved'?'':s==='rejected'?'background:#f6dcda;color:#9b1c14':'background:#f7ecd0;color:#8a6410'}">${s}</span>`;
+function vLeaves(){const par=P.role==='parent';
+  const L=Object.entries(S.leaves).sort((a,b)=>(a[1].status==='pending'?0:1)-(b[1].status==='pending'?0:1)||b[1].from.localeCompare(a[1].from));
+  const form=par?`<div class="card"><h2>Request leave</h2><div class="row"><div><label>From</label><input id="lf" type="date" value="${today()}"></div><div><label>To</label><input id="lt" type="date" value="${today()}"></div></div><div class="row"><textarea id="lr" rows="2" placeholder="Reason, for example fever or a family function"></textarea></div><button data-act="addl">Send request</button></div>`:'';
+  return form+`<div class="card"><h2>${par?'My requests':'Leave requests'}</h2>${L.map(([id,l])=>`<div style="padding:10px 0;border-bottom:1px solid var(--bd)"><b>${esc(S.students[l.sid]?.name||'?')}</b> ${chipLv(l.status)}<div class="mu">${esc(l.from)} to ${esc(l.to)}${l.by2?' · decided by '+esc(l.by2):''}</div><div>${esc(l.reason)}</div>${!par&&l.status==='pending'?`<div class="row" style="margin:8px 0 0"><button data-act="lv" data-v="${id}|approved">Approve</button><button class="d" data-act="lv" data-v="${id}|rejected">Reject</button></div>`:''}${par&&l.status==='pending'?`<button class="d" data-act="dell" data-v="${id}" style="margin-top:6px">Cancel request</button>`:''}</div>`).join('')||'<div class="empty">No leave requests yet.</div>'}</div>`}
+function vNotices(){const staff=P.role!=='parent',mc=S.students[P.studentId]?.cls;
+  const L=Object.entries(S.notices).filter(([,n])=>staff||!n.cls||n.cls===mc).sort((a,b)=>b[1].date.localeCompare(a[1].date)||b[0].localeCompare(a[0]));
+  return (staff?`<div class="card"><h2>Post a notice</h2><div class="row"><input id="nt" placeholder="Title"></div><div class="row"><textarea id="nb" rows="3" placeholder="Message for parents"></textarea></div><button data-act="addn">Publish notice</button><p class="mu">${P.role==='admin'?'Goes to all classes.':'Goes to Class '+esc(P.cls)+' parents.'}</p></div>`:'')+`<div class="card"><h2>Notices</h2>${L.map(([id,n])=>`<div style="padding:10px 0;border-bottom:1px solid var(--bd)"><b>${esc(n.title)}</b> <span class="chip">${n.cls?'Class '+esc(n.cls):'All classes'}</span><div class="mu">${esc(n.date)} · ${esc(n.byName)}</div><div style="white-space:pre-wrap">${esc(n.body)}</div>${P.role==='admin'||n.by===me.uid?`<button class="d" data-act="deln" data-v="${id}" style="margin-top:6px">Delete</button>`:''}</div>`).join('')||'<div class="empty">No notices yet.</div>'}</div>`}
+function vHome(){const id=P.studentId,s=S.students[id];if(!s)return '<div class="card empty">Loading…</div>';
+  const j=+s.juz||0,at=attStats(id,month),ta=S.att[today()+'_'+id]?.status||'Not marked yet',aw=S.awards[month],
+  r=Object.values(S.reports).sort((a,b)=>b.date.localeCompare(a.date))[0];
+  const n=Object.values(S.notices).filter(x=>!x.cls||x.cls===s.cls).sort((a,b)=>b.date.localeCompare(a.date))[0];
+  return `<div class="card"><div class="st"><div class="av" style="background:hsl(${hue(s.name)} 45% 38%)">${esc(ini(s.name))}</div><b>${esc(s.name)}</b><span class="mu">Class ${esc(s.cls)}</span></div><div class="juz">${Array.from({length:30},(_,k)=>`<i class="${k<j?'on':''}"></i>`).join('')}</div>
+  <div class="meta"><span class="chip">${j} of 30 juz</span><span class="chip">Today: ${esc(ta)}</span><span class="chip">${at.tot?at.pct+'% attendance this month':'No attendance yet'}</span><span class="chip">${score(id,month)} points this month</span></div>${aw&&aw.sid===id?`<p class="gold" style="margin-top:12px">🏆 Best student of ${esc(month)}</p>`:''}</div>
+  <div class="card"><h2>Latest report</h2>${r?`<div class="mu">${esc(r.date)} · ${esc(r.byName)}</div><p style="margin:6px 0">${r.present?'':'<b>Absent</b>. '}Sabaq: ${esc(r.sabaqText||'-')} (${esc(r.sabaq)} lines) · Sabqi: ${esc(r.sabqi||'-')} · Manzil: ${esc(r.manzil||'-')}</p><div class="meta"><span class="chip">Tajweed ${r.tajweed}/5</span><span class="chip">Behaviour ${r.behaviour}/5</span></div>${r.note?`<p>${esc(r.note)}</p>`:''}`:'<div class="empty">No report yet.</div>'}</div>
+  ${n?`<div class="card"><h2>${esc(n.title)}</h2><div class="mu">${esc(n.date)}</div><div style="white-space:pre-wrap">${esc(n.body)}</div></div>`:''}`}
+// create a login without signing the admin out (secondary app instance)
+async function mkUser(username,pw,data){
+  const sec=initializeApp(CFG,'sec'+uid()),sa=getAuth(sec);
+  const c=await createUserWithEmailAndPassword(sa,username.toLowerCase()+DOMAIN,pw);
+  await signOut(sa);
+  await setDoc(doc(db,'users',c.user.uid),{...data,username:username.toLowerCase()});
+}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,x=b.dataset.v;
+  try{
+    if(a==='tab'){tab=x;render();return}
+    if(a==='lo'){signOut(auth);return}
+    if(a==='setup'){if(v('ap').length<6||!v('au'))return alert('Password min 6 characters');
+      const c=await createUserWithEmailAndPassword(auth,v('au').toLowerCase()+DOMAIN,v('ap'));
+      await setDoc(doc(db,'users',c.user.uid),{role:'admin',name:v('an'),username:v('au').toLowerCase()});
+      await setDoc(doc(db,'config','setup'),{done:true});setupDone=true;
+      P={role:'admin',name:v('an')};listen();render()}
+    if(a==='login'){try{await signInWithEmailAndPassword(auth,v('lu').toLowerCase()+DOMAIN,v('lp'))}catch(er){const c=er.code||'';$('#le').textContent=(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found')?'Wrong username or password':'Error: '+(c||er.message)}}
+    if(a==='addl'){const f=v('lf'),t=v('lt'),rs=v('lr');if(!rs||!f||t<f)return alert('Add a reason and valid dates');const st=S.students[P.studentId];await setDoc(doc(collection(db,'leaves')),{sid:P.studentId,cls:st.cls,from:f,to:t,reason:rs,status:'pending',byName:P.name,created:today()});alert('Leave request sent')}
+    if(a==='lv'){const[i,st]=x.split('|');await setDoc(doc(db,'leaves',i),{status:st,by2:P.name},{merge:true})}
+    if(a==='dell'&&confirm('Cancel this request?'))await deleteDoc(doc(db,'leaves',x));
+    if(a==='addn'){const t=v('nt'),b=v('nb');if(!t||!b)return alert('Add a title and message');await setDoc(doc(collection(db,'notices')),{title:t,body:b,cls:P.role==='ustad'?P.cls:'',date:today(),by:me.uid,byName:P.name})}
+    if(a==='deln'&&confirm('Delete notice?'))await deleteDoc(doc(db,'notices',x));
+    if(a==='csv'){const rows=[['Date','Student','Class','Sabaq','Lines','Sabqi','Manzil','Tajweed','Behaviour','Note','By']];Object.values(S.reports).sort((a,b)=>b.date.localeCompare(a.date)).forEach(r=>rows.push([r.date,S.students[r.sid]?.name,r.cls,r.sabaqText,r.sabaq,r.sabqi,r.manzil,r.tajweed,r.behaviour,r.note,r.byName]));const t=rows.map(r=>r.map(c=>'"'+String(c??'').replace(/"/g,'""')+'"').join(',')).join('\n');const u=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv'}));const e=document.createElement('a');e.href=u;e.download='hifz-reports-'+today()+'.csv';e.click()}
+    if(a==='delr'&&confirm('Delete report?'))await deleteDoc(doc(db,'reports',x));
+    if(a==='addr'){const st=S.students[v('rs')];if(!st)return;await setDoc(doc(collection(db,'reports')),{sid:v('rs'),cls:st.cls,by:me.uid,byName:P.name,date:v('rd'),sabaqText:v('rt'),sabaq:+v('rq')||0,sabqi:v('rb'),manzil:v('rm'),tajweed:+v('rj'),behaviour:+v('rh'),note:v('rn')});tab='Reports';render()}
+    if(a==='saveatt'){const bt=writeBatch(db);document.querySelectorAll('[data-sid]').forEach(s=>{const id=s.dataset.sid;bt.set(doc(db,'attendance',adate+'_'+id),{sid:id,cls:S.students[id].cls,date:adate,status:s.value})});await bt.commit();alert('Attendance saved')}
+    if(a==='award'){const s=S.students[x];await setDoc(doc(db,'awards',month),{sid:x,name:s.name,cls:s.cls})}
+    if(a==='adds'){const sn=v('sn'),sc=v('sc').toUpperCase(),pn=v('pn'),pu=v('pu').toLowerCase().replace(/\s+/g,''),pp=v('pp');if(!sn||!sc||!pu||pp.length<6)return alert('Fill all fields (password min 6)');const id=uid();
+      await mkUser(pu,pp,{role:'parent',name:pn||'Parent of '+sn,studentId:id});
+      await setDoc(doc(db,'students',id),{name:sn,cls:sc,juz:0});alert('Student and parent login created')}
+    if(a==='dels'&&confirm('Delete student? (parent login must be removed from Firebase Console)'))await deleteDoc(doc(db,'students',x));
+    if(a==='addu'){if(!v('un')||!v('uc')||!v('uu')||v('up').length<6)return alert('Fill all fields (password min 6)');await mkUser(v('uu'),v('up'),{role:'ustad',name:v('un'),cls:v('uc').toUpperCase()});alert('Ustad added')}
+  }catch(err){alert('Error: '+(err.message||err))}
+});
+document.addEventListener('change',async e=>{
+  const t=e.target,k=t.dataset.chg;
+  if(k==='mon'){month=t.value||month;render()}if(k==='ad'){adate=t.value||adate;render()}if(k==='ac'){acls=t.value;render()}if(k==='sel'){sel=t.value;render()}
+  if(t.dataset.juz){const j=Math.max(0,Math.min(30,+t.value||0));await setDoc(doc(db,'students',t.dataset.juz),{juz:j},{merge:true})}
+});
+$('#out').onclick=()=>signOut(auth);
+$('#pw').onclick=async()=>{try{const cur=prompt('Current password');if(!cur)return;const nw=prompt('New password (min 6 characters)');if(!nw||nw.length<6)return alert('Minimum 6 characters');await reauthenticateWithCredential(me,EmailAuthProvider.credential(me.email,cur));await updatePassword(me,nw);alert('Password changed')}catch(e){alert('Could not change password: '+(e.code||e.message))}};
+boot();
+</script></body></html>
