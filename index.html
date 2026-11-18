@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Darul Hikam Hifz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f6f4ee;--card:#fff;--tx:#1d2b25;--mu:#6b7770;--ac:#0f6b4f;--ac2:#e7f2ec;--bd:#dcd8cc;--gold:#b8860b}
+@media (prefers-color-scheme:dark){:root{--bg:#121a16;--card:#1b2620;--tx:#e8efe9;--mu:#98a79e;--ac:#3fbf93;--ac2:#1f3a2f;--bd:#2d3b33;--gold:#e0b84a;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:var(--ac);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header h1{margin:0;font-size:18px}header small{opacity:.85;display:block;font-size:12px}
+main{max-width:900px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px}
+h2{font-size:16px;margin:0 0 10px}
+input,select,textarea,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;max-width:100%}
+button{cursor:pointer;background:var(--ac);color:#fff;border:0}button.s{background:var(--ac2);color:var(--ac)}button.d{background:#b3261e}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.row>*{flex:1 1 140px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}.tabs button{background:var(--card);color:var(--tx);border:1px solid var(--bd);white-space:nowrap}.tabs button.on{background:var(--ac);color:#fff}
+.sc{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
+.mu{color:var(--mu);font-size:13px}.gold{color:var(--gold);font-weight:700}label{font-size:12px;color:var(--mu);display:block}
+.bar{background:var(--ac2);border-radius:99px;height:10px;min-width:120px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+td input[type=number]{width:70px}
+</style></head><body>
+<header><div><h1>Darul Hikam · Hifz</h1><small id="who"></small></div><button class="s" id="out" hidden>Logout</button></header>
+<main id="app"><p class="mu">Loading…</p></main>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,getDoc,setDoc,deleteDoc,onSnapshot,query,where,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// ====== PASTE YOUR FIREBASE CONFIG HERE (Project settings > Your apps > Web) ======
+const CFG={apiKey:"AIzaSyDV3Q5qniP4wooLT1F9WERZxbIh_W33bt8",authDomain:"hifz-management.firebaseapp.com",projectId:"hifz-management",storageBucket:"hifz-management.firebasestorage.app",messagingSenderId:"7998042320",appId:"1:7998042320:web:1271eb0084a60123eeeed5"};
+const DOMAIN="@darulhikam.app";
+const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const v=id=>($('#'+id)?.value??'').trim();
+const uid=()=>Math.random().toString(36).slice(2,10);
+const today=()=>new Date().toISOString().slice(0,10);
+const S={users:{},students:{},reports:{},att:{},awards:{}};
+let me=null,P=null,tab='',month=today().slice(0,7),sel='',adate=today(),acls='',unsubs=[],setupDone=null;
+const ST=['Present','Late','Absent','Leave'];
+
+async function boot(){
+  const c=await getDoc(doc(db,'config','setup')).catch(()=>null);
+  setupDone=!!(c&&c.exists());
+  onAuthStateChanged(auth,async u=>{
+    unsubs.forEach(f=>f());unsubs=[];me=u;P=null;
+    if(u){const d=await getDoc(doc(db,'users',u.uid)).catch(()=>null);P=d&&d.exists()?d.data():null;if(P)listen()}
+    render();
+  });
+}
+function sub(name,ref,isDoc){
+  unsubs.push(onSnapshot(ref,sn=>{
+    if(isDoc){S[name]=sn.exists()?{[sn.id]:sn.data()}:{}}
+    else{S[name]={};sn.docs.forEach(d=>S[name][d.id]=d.data())}
+    render();
+  },e=>console.error(name,e)));
+}
+function listen(){
+  const col=n=>collection(db,n);
+  if(P.role==='admin'){sub('users',col('users'));sub('students',col('students'));sub('reports',col('reports'));sub('att',col('attendance'))}
+  if(P.role==='ustad'){sub('students',query(col('students'),where('cls','==',P.cls)));sub('reports',query(col('reports'),where('cls','==',P.cls)));sub('att',query(col('attendance'),where('cls','==',P.cls)))}
+  if(P.role==='parent'){sub('students',doc(db,'students',P.studentId),true);sub('reports',query(col('reports'),where('sid','==',P.studentId)));sub('att',query(col('attendance'),where('sid','==',P.studentId)))}
+  sub('awards',col('awards'));
+}
+// attendance + score helpers
+const inM=(d,m)=>d.startsWith(m);
+function attStats(sid,m){const a=Object.values(S.att).filter(x=>x.sid===sid&&inM(x.date,m));const c=k=>a.filter(x=>x.status===k).length;const tot=a.length;return{tot,p:c('Present'),l:c('Late'),a:c('Absent'),v:c('Leave'),pct:tot?Math.round((c('Present')+c('Late'))*100/tot):0}}
+function lines(sid,m){return Object.values(S.reports).filter(r=>r.sid===sid&&inM(r.date,m)).reduce((a,r)=>a+(+r.sabaq||0),0)}
+function score(sid,m){const rp=Object.values(S.reports).filter(r=>r.sid===sid&&inM(r.date,m)).reduce((a,r)=>a+(+r.sabaq||0)+r.tajweed*2+r.behaviour*2,0);const s=attStats(sid,m);return rp+s.p*3+s.l}
+function ranking(m,cls){return Object.entries(S.students).filter(([,s])=>!cls||s.cls===cls).map(([id,s])=>({id,s,pts:score(id,m),at:attStats(id,m)})).filter(x=>x.at.tot||x.pts).sort((a,b)=>b.pts-a.pts)}
+const studs=()=>Object.entries(S.students).sort((a,b)=>a[1].cls.localeCompare(b[1].cls)||a[1].name.localeCompare(b[1].name));
+
+function render(){
+  const a=$('#app');$('#out').hidden=!me;
+  if(setupDone===false&&!me){a.innerHTML=`<div class="card"><h2>First-time setup</h2><p class="mu">Create the admin account for Darul Hikam.</p><div class="row"><input id="an" value="Al Hafiz Jaseem Al Ansari"><input id="au" placeholder="Username" value="admin"><input id="ap" type="password" placeholder="Password (min 6)"></div><button data-act="setup">Create admin</button></div>`;return}
+  if(!me){$('#who').textContent='';a.innerHTML=`<div class="card"><h2>Login</h2><div class="row"><input id="lu" placeholder="Username" autocapitalize="none"><input id="lp" type="password" placeholder="Password"></div><button data-act="login">Login</button> <span class="mu" id="le"></span></div>`;return}
+  if(!P){a.innerHTML='<div class="card">Loading your account… If this stays, your account has no role yet. Contact the admin.</div>';return}
+  $('#who').textContent=({admin:'Admin',ustad:'Ustad · Class '+P.cls,parent:'Parent'})[P.role]+' · '+P.name;
+  const T=P.role==='admin'?['Attendance','Reports','Add report','Progress','Best of month','Students','Ustads']:P.role==='ustad'?['Attendance','Reports','Add report','Progress','Best of month']:['Progress','Reports','Attendance','Best of month'];
+  if(!T.includes(tab))tab=T[0];
+  const V={Attendance:vAtt,Reports:vRep,'Add report':vAdd,Progress:vProg,'Best of month':vBest,Students:vStud,Ustads:vUst};
+  a.innerHTML=`<div class="tabs">${T.map(t=>`<button class="${t===tab?'on':''}" data-act="tab" data-v="${t}">${t}</button>`).join('')}</div>`+V[tab]();
+}
+function vAtt(){
+  if(P.role==='parent'){const rows=Object.values(S.att).sort((a,b)=>b.date.localeCompare(a.date));const st=attStats(P.studentId,month);
+    return `<div class="card"><h2>Attendance</h2><div class="row"><input type="month" id="mm" value="${month}" data-chg="mon"></div><p>This month: <b>${st.pct}%</b> · Present ${st.p} · Late ${st.l} · Absent ${st.a} · Leave ${st.v}</p><div class="sc"><table><tr><th>Date</th><th>Status</th></tr>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.status)}</td></tr>`).join('')||'<tr><td class="mu">No records</td></tr>'}</table></div></div>`}
+  const cl=[...new Set(studs().map(([,s])=>s.cls))];if(!acls||!cl.includes(acls))acls=cl[0]||'';
+  const list=studs().filter(([,s])=>s.cls===acls);
+  return `<div class="card"><h2>Daily attendance</h2><div class="row"><input type="date" id="ad" value="${adate}" data-chg="ad">${P.role==='admin'?`<select id="ac" data-chg="ac">${cl.map(c=>`<option ${c===acls?'selected':''}>${esc(c)}</option>`).join('')}</select>`:''}</div>
+  <div class="sc"><table><tr><th>Student</th><th>Status</th></tr>${list.map(([id,s])=>{const cur=S.att[adate+'_'+id]?.status||'Present';return `<tr><td>${esc(s.name)}</td><td><select data-sid="${id}">${ST.map(x=>`<option ${x===cur?'selected':''}>${x}</option>`).join('')}</select></td></tr>`}).join('')||'<tr><td class="mu">No students</td></tr>'}</table></div><br><button data-act="saveatt">Save attendance</button></div>`}
+function vRep(){
+  let rs=Object.entries(S.reports).filter(([,r])=>!sel||r.sid===sel).sort((a,b)=>b[1].date.localeCompare(a[1].date));
+  return `<div class="card"><h2>Reports</h2>${P.role!=='parent'?`<div class="row"><select data-chg="sel"><option value="">All students</option>${studs().map(([id,s])=>`<option value="${id}" ${sel===id?'selected':''}>${esc(s.name)} (${esc(s.cls)})</option>`).join('')}</select></div>`:''}
+  <div class="sc"><table><tr><th>Date</th><th>Student</th><th>Class</th><th>Sabaq</th><th>Lines</th><th>Sabqi</th><th>Manzil</th><th>Tajweed</th><th>Behav.</th><th>Note</th><th>By</th><th></th></tr>
+  ${rs.map(([id,r])=>`<tr><td>${esc(r.date)}</td><td>${esc(S.students[r.sid]?.name||'?')}</td><td>${esc(r.cls)}</td><td>${esc(r.sabaqText)}</td><td>${esc(r.sabaq)}</td><td>${esc(r.sabqi)}</td><td>${esc(r.manzil)}</td><td>${r.tajweed}/5</td><td>${r.behaviour}/5</td><td style="white-space:normal;min-width:120px">${esc(r.note)}</td><td>${esc(r.byName)}</td><td>${P.role==='admin'||r.by===me.uid?`<button class="d" data-act="delr" data-v="${id}">×</button>`:''}</td></tr>`).join('')||'<tr><td colspan="12" class="mu">No reports yet.</td></tr>'}</table></div></div>`}
+function vAdd(){const r5=n=>`<select id="${n}">${[5,4,3,2,1].map(i=>`<option>${i}</option>`).join('')}</select>`;
+  return `<div class="card"><h2>New report</h2><div class="row"><div><label>Student</label><select id="rs">${studs().map(([id,s])=>`<option value="${id}">${esc(s.name)} (${esc(s.cls)})</option>`).join('')}</select></div><div><label>Date</label><input id="rd" type="date" value="${today()}"></div></div>
+  <div class="row"><div><label>Sabaq (surah + ayah range)</label><input id="rt" placeholder="e.g. Al-Mulk 1–10"></div><div><label>Sabaq lines</label><input id="rq" type="number" min="0" value="0"></div></div>
+  <div class="row"><div><label>Sabqi</label><input id="rb"></div><div><label>Manzil</label><input id="rm"></div></div>
+  <div class="row"><div><label>Tajweed (1–5)</label>${r5('rj')}</div><div><label>Behaviour (1–5)</label>${r5('rh')}</div></div>
+  <div class="row"><textarea id="rn" rows="2" placeholder="Note for parents"></textarea></div><button data-act="addr">Save report</button></div>`}
+function vProg(){const can=P.role!=='parent';
+  return `<div class="card"><h2>Hifz progress</h2><div class="row"><input type="month" id="mm" value="${month}" data-chg="mon"></div><div class="sc"><table><tr><th>Student</th><th>Class</th><th>Juz memorized</th><th>Progress</th><th>Attendance</th><th>Sabaq lines (month)</th></tr>
+  ${studs().map(([id,s])=>{const j=+s.juz||0,at=attStats(id,month);return `<tr><td>${esc(s.name)}</td><td>${esc(s.cls)}</td><td>${can?`<input type="number" min="0" max="30" value="${j}" data-juz="${id}"> /30`:j+' / 30'}</td><td><div class="bar"><i style="width:${j*100/30}%"></i></div></td><td>${at.tot?at.pct+'%':'–'}</td><td>${lines(id,month)}</td></tr>`}).join('')}</table></div></div>`}
+function vBest(){const cls=P.role==='ustad'?P.cls:'',rk=ranking(month,cls),aw=S.awards[month];const rows=P.role==='parent'?rk.filter(x=>x.id===P.studentId):rk;
+  const w=aw&&aw.name?`<p class="gold">🏆 ${esc(aw.name)} (Class ${esc(aw.cls)}) is the best student of ${esc(month)}</p>`:'<p class="mu">Not announced yet.</p>';
+  return `<div class="card"><h2>Best student of the month</h2><div class="row"><input type="month" id="mm" value="${month}" data-chg="mon"></div>${w}<p class="mu">Points = report (sabaq lines + tajweed×2 + behaviour×2) + attendance (present ×3, late ×1).</p>
+  <div class="sc"><table><tr><th>#</th><th>Student</th><th>Class</th><th>Attendance</th><th>Points</th>${P.role==='admin'?'<th></th>':''}</tr>${rows.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.s.name)}</td><td>${esc(x.s.cls)}</td><td>${x.at.tot?x.at.pct+'%':'–'}</td><td>${x.pts}</td>${P.role==='admin'?`<td><button class="s" data-act="award" data-v="${x.id}">Award</button></td>`:''}</tr>`).join('')||'<tr><td colspan="6" class="mu">No data.</td></tr>'}</table></div></div>`}
+function vStud(){return `<div class="card"><h2>Add student</h2><div class="row"><input id="sn" placeholder="Student name"><input id="sc" placeholder="Class (e.g. A)"></div><div class="row"><input id="pn" placeholder="Parent name"><input id="pu" placeholder="Parent username" autocapitalize="none"><input id="pp" placeholder="Parent password (min 6)"></div><button data-act="adds">Add student + parent login</button></div>
+  <div class="card"><h2>Students (${studs().length})</h2><div class="sc"><table><tr><th>Name</th><th>Class</th><th>Parent</th><th></th></tr>${studs().map(([id,s])=>{const p=Object.values(S.users).find(x=>x.studentId===id);return `<tr><td>${esc(s.name)}</td><td>${esc(s.cls)}</td><td>${esc(p?.username||'')}</td><td><button class="d" data-act="dels" data-v="${id}">×</button></td></tr>`}).join('')}</table></div></div>`}
+function vUst(){return `<div class="card"><h2>Add ustad</h2><div class="row"><input id="un" placeholder="Ustad name"><input id="uc" placeholder="Class (e.g. A)"><input id="uu" placeholder="Username" autocapitalize="none"><input id="up" placeholder="Password (min 6)"></div><button data-act="addu">Add ustad</button></div>
+  <div class="card"><h2>Ustads</h2><div class="sc"><table><tr><th>Name</th><th>Class</th><th>Username</th></tr>${Object.values(S.users).filter(u=>u.role==='ustad').map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.cls)}</td><td>${esc(u.username)}</td></tr>`).join('')}</table></div><p class="mu">To remove a login fully, also delete the user in Firebase Console > Authentication.</p></div>`}
+
+// create a login without signing the admin out (secondary app instance)
+async function mkUser(username,pw,data){
+  const sec=initializeApp(CFG,'sec'+uid()),sa=getAuth(sec);
+  const c=await createUserWithEmailAndPassword(sa,username.toLowerCase()+DOMAIN,pw);
+  await signOut(sa);
+  await setDoc(doc(db,'users',c.user.uid),{...data,username:username.toLowerCase()});
+}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,x=b.dataset.v;
+  try{
+    if(a==='tab'){tab=x;render();return}
+    if(a==='setup'){if(v('ap').length<6||!v('au'))return alert('Password min 6 characters');
+      const c=await createUserWithEmailAndPassword(auth,v('au').toLowerCase()+DOMAIN,v('ap'));
+      await setDoc(doc(db,'users',c.user.uid),{role:'admin',name:v('an'),username:v('au').toLowerCase()});
+      await setDoc(doc(db,'config','setup'),{done:true});setupDone=true;
+      P={role:'admin',name:v('an')};listen();render()}
+    if(a==='login'){try{await signInWithEmailAndPassword(auth,v('lu').toLowerCase()+DOMAIN,v('lp'))}catch{$('#le').textContent='Wrong username or password'}}
+    if(a==='delr'&&confirm('Delete report?'))await deleteDoc(doc(db,'reports',x));
+    if(a==='addr'){const st=S.students[v('rs')];if(!st)return;await setDoc(doc(collection(db,'reports')),{sid:v('rs'),cls:st.cls,by:me.uid,byName:P.name,date:v('rd'),sabaqText:v('rt'),sabaq:+v('rq')||0,sabqi:v('rb'),manzil:v('rm'),tajweed:+v('rj'),behaviour:+v('rh'),note:v('rn')});tab='Reports';render()}
+    if(a==='saveatt'){const bt=writeBatch(db);document.querySelectorAll('[data-sid]').forEach(s=>{const id=s.dataset.sid;bt.set(doc(db,'attendance',adate+'_'+id),{sid:id,cls:S.students[id].cls,date:adate,status:s.value})});await bt.commit();alert('Attendance saved')}
+    if(a==='award'){const s=S.students[x];await setDoc(doc(db,'awards',month),{sid:x,name:s.name,cls:s.cls})}
+    if(a==='adds'){if(!v('sn')||!v('sc')||!v('pu')||v('pp').length<6)return alert('Fill all fields (password min 6)');const id=uid();
+      await setDoc(doc(db,'students',id),{name:v('sn'),cls:v('sc').toUpperCase(),juz:0});
+      await mkUser(v('pu'),v('pp'),{role:'parent',name:v('pn')||'Parent of '+v('sn'),studentId:id});alert('Student and parent login created')}
+    if(a==='dels'&&confirm('Delete student? (parent login must be removed from Firebase Console)'))await deleteDoc(doc(db,'students',x));
+    if(a==='addu'){if(!v('un')||!v('uc')||!v('uu')||v('up').length<6)return alert('Fill all fields (password min 6)');await mkUser(v('uu'),v('up'),{role:'ustad',name:v('un'),cls:v('uc').toUpperCase()});alert('Ustad added')}
+  }catch(err){alert('Error: '+(err.message||err))}
+});
+document.addEventListener('change',async e=>{
+  const t=e.target,k=t.dataset.chg;
+  if(k==='mon'){month=t.value||month;render()}if(k==='ad'){adate=t.value||adate;render()}if(k==='ac'){acls=t.value;render()}if(k==='sel'){sel=t.value;render()}
+  if(t.dataset.juz){const j=Math.max(0,Math.min(30,+t.value||0));await setDoc(doc(db,'students',t.dataset.juz),{juz:j},{merge:true})}
+});
+$('#out').onclick=()=>signOut(auth);
+boot();
+</script></body></html>
